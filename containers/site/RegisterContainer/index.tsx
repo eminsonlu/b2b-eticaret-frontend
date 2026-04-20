@@ -17,21 +17,6 @@ const RegisterContainer = () => {
   const { addNotification } = useNotificationStore();
   const { setUser } = useAuthStore();
 
-  const handleSocialRegister = (provider: 'google' | 'facebook') => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-    if (!baseUrl) {
-      addNotification({
-        title: 'Hata',
-        text: 'Sosyal kayıt yapılandırması eksik.',
-        type: 'error',
-      });
-      return;
-    }
-
-    window.location.href = `${baseUrl}/auth/${provider}`;
-  };
-
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -190,28 +175,6 @@ const RegisterContainer = () => {
           >
             Kayıt Ol
           </Button>
-
-          <div className="flex flex-col gap-2 mt-6">
-            <span className="text-center text-sm text-gray-500">
-              veya sosyal hesaplarınla devam et
-            </span>
-            <Button 
-              type="button"
-              className="w-full"
-              size="large"
-              onClick={() => handleSocialRegister('google')}
-            >
-              Google ile devam et
-            </Button>
-            <Button 
-              type="button"
-              className="w-full"
-              size="large"
-              onClick={() => handleSocialRegister('facebook')}
-            >
-              Facebook ile devam et
-            </Button>
-          </div>
 
           <Link
             href="/giris-yap"

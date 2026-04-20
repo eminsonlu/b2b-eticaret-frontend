@@ -50,97 +50,13 @@ const SelectPaymentMethod = () => {
 
       if (data.length > 0) {
         setBankAccountId(data[0].id);
+        setPaymentMethod('BANK_TRANSFER');
       }
     })();
   }, []);
 
   return (
     <div className="w-full flex flex-col gap-4">
-      {/* credit card */}
-      <div className={cn('w-full', 'border border-slate-200 rounded-md')}>
-        <div
-          className={cn(
-            'w-full h-[70px] p-4 box-border rounded-md bg-slate-50 border-slate-200 flex items-center gap-2 cursor-pointer'
-          )}
-          onClick={() => setPaymentMethod('CREDIT_CARD')}
-        >
-          <FaSquareCheck
-            className={cn({
-              'text-slate-500': paymentMethod !== 'CREDIT_CARD',
-              'text-primary-500': paymentMethod === 'CREDIT_CARD',
-            })}
-            size={20}
-          />
-          <div>
-            <h4 className="font-medium">Kredi Kartı</h4>
-            <p className="-mt-1 text-xs text-slate-500 italic">
-              Kredi kartı ile ödeme yapabilirsiniz.
-            </p>
-          </div>
-        </div>
-
-        {/* {paymentMethod === 'CREDIT_CARD' && (
-          <div className="w-full p-6 flex gap-6">
-            <div className="flex-1 flex flex-col gap-4">
-              <strong className="font-semibold">Kart Bilgileri</strong>
-              <p className="text-sm text-slate-500 -mt-4 italic">
-                Kredi kartınızın bilgilerini giriniz
-              </p>
-
-              <Input
-                label="Kart Numarası"
-                placeholder="Kart Numarası"
-                value={''}
-                onChange={(e) => console.log(e.target.value)}
-              />
-
-              <div className="max-w-[250px] flex items-end gap-2">
-                <Select
-                  label="Son K. Tarihi"
-                  options={[]}
-                  value={''}
-                  onSelect={(val) => console.log(val)}
-                />
-                <Select
-                  options={[]}
-                  value={''}
-                  onSelect={(val) => console.log(val)}
-                />
-              </div>
-
-              <Input
-                label="CVV"
-                placeholder="CVV"
-                value={''}
-                onChange={(e) => console.log(e.target.value)}
-                className="max-w-[80px]"
-              />
-            </div>
-
-            <div className="w-[1px] min-w-[1px] h-[250px] my-auto bg-slate-200"></div>
-
-            <div className="flex-1 flex flex-col gap-2">
-              <strong className="font-semibold">Taksit Seçenekleri</strong>
-              <p className="text-sm text-slate-500 -mt-2 italic">
-                Kartınıza uygun taksit seçeneğini seçiniz
-              </p>
-              <Table
-                data={INSTALLMENT_OPTIONS}
-                columns={[
-                  {
-                    title: 'Taksit Sayısı',
-                    content: (row) => row.title,
-                  },
-                  {
-                    title: 'Aylık Ödeme',
-                    content: (row) => row.installmentPrice.toFixed(2) + 'TL',
-                  },
-                ]}
-              />
-            </div>
-          </div>
-        )} */}
-      </div>
 
       {/* bank transfer */}
       <div className={cn('w-full', 'border border-slate-200 rounded-md')}>

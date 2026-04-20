@@ -11,8 +11,6 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import { useCartStore } from '@/stores/cartStore';
 import { useWishListStore } from '@/stores/wishListStore';
-import { FcGoogle } from 'react-icons/fc';
-import { FaFacebookF } from 'react-icons/fa6';
 
 export const LoginContainer = () => {
   const { setUser } = useAuthStore();
@@ -22,21 +20,6 @@ export const LoginContainer = () => {
   const { updateWishList } = useWishListStore();
 
   const [loading, setLoading] = useState(false);
-
-  const handleSocialLogin = (provider: 'google' | 'facebook') => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-    if (!baseUrl) {
-      addNotification({
-        title: 'Hata',
-        text: 'Sosyal giriş yapılandırması eksik.',
-        type: 'error',
-      });
-      return;
-    }
-
-    window.location.href = `${baseUrl}/auth/${provider}`;
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -138,35 +121,6 @@ export const LoginContainer = () => {
           >
             Giriş Yap
           </Button>
-
-          <div className="flex flex-col gap-2">
-            <div className="w-full h-px bg-gray-300 my-6 relative">
-              <span className="bg-white px-2 text-gray-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                veya
-              </span>
-            </div>
-
-            <Button
-              type="button"
-              color="white"
-              size="large"
-              className="w-full h-12.5! flex items-center justify-center border border-gray-300 hover:bg-slate-100 font-medium!"
-              onClick={() => handleSocialLogin('google')}
-            >
-              <FcGoogle />
-              Google ile devam et
-            </Button>
-
-            <Button
-              type="button"
-              color="white"
-              size="large"
-              className="w-full h-12.5! flex items-center justify-center border border-gray-300 hover:bg-slate-100"
-              onClick={() => handleSocialLogin('facebook')}
-            >
-              <FaFacebookF color="#4267B2" /> Facebook ile devam et
-            </Button>
-          </div>
 
           <div className="flex flex-col gap-2 mt-4">
             <Link

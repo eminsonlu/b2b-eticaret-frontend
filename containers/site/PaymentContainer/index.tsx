@@ -18,7 +18,6 @@ const PaymentContainer = () => {
   const router = useRouter();
   const [showModals, setShowModals] = useState<string[]>([]);
   const [confirm, setConfirm] = useState(false);
-  const [iframeToken, setIframeToken] = useState<null | string>(null);
 
   const productsTotal = useMemo(() => {
     const value = cart.reduce(
@@ -70,12 +69,6 @@ const PaymentContainer = () => {
       return router.push(`/siparisler?success=false`);
     }
 
-    // router.push('/siparisler');
-    if (paymentMethod === 'CREDIT_CARD') {
-      setIframeToken(result.token);
-      return;
-    }
-
     router.push(`/siparisler?success=true&orderId=${result?.order?.id}`);
 
     setTimeout(() => {
@@ -89,19 +82,9 @@ const PaymentContainer = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (iframeToken === null) return;
-    setTimeout(() => {
-      // @ts-ignore
-      iFrameResize({}, '#paytriframe');
-    }, 50);
-  }, [iframeToken]);
-
   return (
     cart.length > 0 && (
       <>
-        {!iframeToken && (
-          <>
             <div className="w-full max-w-[1200px] mx-auto flex items-center justify-center group px-4 sm:px-6">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold relative text-center mt-2 sm:mt-4">
                 Ödemeyi Tamamla
@@ -244,9 +227,6 @@ const PaymentContainer = () => {
                 </Button>
               </div>
             </div>
-          </>
-        )}
-
         {showModals.map((modal) => (
           <OnBilgilendirmeKosullariModal
             key={modal}
@@ -259,28 +239,6 @@ const PaymentContainer = () => {
             cart={cart}
           />
         ))}
-
-        {/* <Modal
-          size="xSmall"
-          show={iframeToken != null}
-          onClose={() => setIframeToken(null)}
-        >
-          <iframe
-            src={`https://www.paytr.com/odeme/guvenli/${iframeToken}`}
-            id="paytriframe"
-            style={{ width: '100%', height: '500px', border: 'none' }}
-          ></iframe>
-        </Modal> */}
-
-        {iframeToken && (
-          <iframe
-            src={`https://www.paytr.com/odeme/guvenli/${iframeToken}`}
-            id="paytriframe"
-            style={{ width: '100%', height: '500px', border: 'none' }}
-            allow="payment; camera; microphone"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"
-          ></iframe>
-        )}
       </>
     )
   );
