@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+Disallow: /panel/
+Sitemap: https://tekyerde.com/sitemap.xml

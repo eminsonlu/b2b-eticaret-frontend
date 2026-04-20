@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-family-poppins: 'Poppins', sans-serif;
+
+  --color-black: #424141; /* #0b121a */
+
+  --color-primary: #ff9a00; /* #fbab7e */
+  --color-primary-50: #ffd38f; /* #ffffff */
+  --color-primary-100: #ffca7a; /* #fff8f5 */
+  --color-primary-200: #ffba52; /* #fddfcd */
+  --color-primary-300: #ffaa29; /* #fcc5a6 */
+  --color-primary-400: #ff9a00; /* #fbab7e */
+  --color-primary-500: #c77800;
+  --color-primary-600: #8f5600;
+  --color-primary-700: #573400;
+  --color-primary-800: #1f1200;
+  --color-primary-900: #000000;
+  --color-primary-950: #000000;
+}
+
+@utility container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  @media (max-width: 1024px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+html,
+body {
+  @apply w-full h-full;
+  font-family: var(--font-family-poppins);
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-black/70 hover:bg-black rounded;
+}
+
+body {
+  /* @apply bg-red-500 sm:bg-emerald-500 md:bg-blue-500 lg:bg-yellow-500 xl:bg-indigo-500 2xl:bg-pink-500; */
+}
+
+.gradient {
+  background-color: #fbab7e;
+  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+}
+
+button {
+  @apply cursor-pointer;
+}
+
+/* SWIPER FIX */
+.swiper-wrapper {
+  transition-timing-function: linear !important;
+}

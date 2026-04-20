@@ -1,0 +1,70 @@
+# .github/workflows/nextjs.yml
+name: CI/CD Frontend
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Add host to known_hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Pull latest changes from Git
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+            "cd ecommerce-frontend && git pull origin main"
+
+      - name: Update and Restart Application
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} bash << 'EOF'
+            # Source the profile to load Node.js/npm/pm2 into PATH
+            source ~/.bashrc || source ~/.profile || true
+
+            # Alternative: Load NVM if it exists
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            cd ecommerce-frontend
+
+            # Verify commands exist
+            echo "=== Environment Check ==="
+            node --version
+            npm --version
+            pm2 --version
+
+            # Clean npm cache and remove node_modules
+            echo "=== Cleaning npm cache ==="
+            npm cache clean --force
+            rm -rf node_modules
+
+            # Install dependencies (this will create package-lock.json if it doesn't exist)
+            echo "=== Installing Dependencies ==="
+            npm install --no-audit --no-fund
+
+            # Build the application
+            echo "=== Building Application ==="
+            npm run build
+
+            # Restart PM2 application
+            echo "=== Restarting Application ==="
+            pm2 delete ecommerce-frontend || true
+            pm2 start ecosystem.config.js -i 2
+            pm2 save
+            pm2 list
+          EOF
