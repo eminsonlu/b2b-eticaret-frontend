@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { notify } from '../utils/bugsnag';
+// import { notify } from '../utils/bugsnag';
 import Header from '@/components/site/Header';
 import Footer from '@/components/site/Footer';
 import Button from '@/components/shared/Button';
@@ -13,9 +13,9 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    notify(error, { source: 'error_boundary' });
-  }, [error]);
+  // useEffect(() => {
+  //   notify(error, { source: 'error_boundary' });
+  // }, [error]);
 
   return (
     <>

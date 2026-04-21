@@ -135,12 +135,19 @@ export async function middleware(request: NextRequest) {
       url.startsWith('/odeme') || 
       url.startsWith('/sepet') || 
       url.startsWith('/profil')) {
-  const token = request.cookies.get('token')?.value;
+  const rawToken = request.cookies.get('token')?.value;
 
-  if (!token) {
+  if (!rawToken) {
     return NextResponse.redirect(new URL('/giris-yap', request.url));
   }
-    
+
+  let token: string;
+  try {
+    token = decodeURIComponent(rawToken);
+  } catch {
+    token = rawToken;
+  }
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/me`, {
     headers: { Authorization: `Bearer ${token}` },
   });

@@ -108,6 +108,7 @@ const NewCompanyContainer = () => {
             </label>
             <select
               {...getFieldProps('priceGroup')}
+              onChange={(e) => formik.setFieldValue('priceGroup', Number(e.target.value))}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Seçiniz</option>
@@ -130,6 +131,7 @@ const NewCompanyContainer = () => {
             min="0"
             max="100"
             {...getFieldProps('discountRate')}
+            onChange={(e) => formik.setFieldValue('discountRate', Number(e.target.value))}
             error={
               touched.discountRate &&
               errors.discountRate &&

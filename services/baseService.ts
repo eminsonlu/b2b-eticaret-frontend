@@ -24,16 +24,16 @@ axios.interceptors.request.use(
         token = undefined;
       }
     } else {
-      // client — cookie encode edildiği için decode et; yoksa localStorage'dan al
-      const match = document.cookie.match(/token=([^;]+)/);
-      if (match) {
+      // client — find exact "token" cookie, then fall back to localStorage
+      const tokenCookie = document.cookie.split('; ').find(c => c.startsWith('token='));
+      if (tokenCookie) {
         try {
-          token = decodeURIComponent(match[1].trim());
+          token = decodeURIComponent(tokenCookie.slice(6));
         } catch {
           token = undefined;
         }
       }
-      if (!token) token = typeof window !== 'undefined' ? window.localStorage.getItem('token') ?? undefined : undefined;
+      if (!token) token = window.localStorage.getItem('token') ?? undefined;
     }
 
     if (token) {

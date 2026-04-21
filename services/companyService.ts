@@ -1,4 +1,4 @@
-import baseService from './base.service';
+import baseService from './baseService';
 import { ICompany } from '@/types/ICompany';
 import { ICompanyInvite } from '@/types/ICompanyInvite';
 

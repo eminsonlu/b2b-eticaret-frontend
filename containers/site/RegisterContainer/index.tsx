@@ -39,7 +39,7 @@ const RegisterContainer = () => {
       passwordR: yup
         .string()
         .oneOf([yup.ref('password'), undefined], 'Şifreler uyuşmuyor'),
-      inviteCode: yup.string().optional(),
+      inviteCode: yup.string().required('Şirket davet kodu alanı zorunludur'),
     }),
     onSubmit: async (values: any) => {
       setLoading(true);
@@ -157,7 +157,7 @@ const RegisterContainer = () => {
 
           <Input
             size="large"
-            label="Şirket Davet Kodu (Opsiyonel)"
+            label="Şirket Davet Kodu"
             placeholder="Şirket Davet Kodu"
             className="p-2 border border-gray-300 rounded"
             {...getFieldProps('inviteCode')}
