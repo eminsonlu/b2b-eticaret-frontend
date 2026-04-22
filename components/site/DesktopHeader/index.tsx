@@ -152,7 +152,7 @@ const DesktopHeader = ({ categories = [] }: Props) => {
                       Siparişlerim
                     </Link>
 
-                    {user?.role?.isAdmin && (
+                    {(user?.role?.isAdmin || user?.isCompanyAdmin) && (
                       <Link
                         href={`/panel`}
                         className="w-full min-h-[30px] flex p-1.5 rounded items-center text-sm font-medium text-slate-600 hover:text-black hover:bg-primary-100/30"

@@ -96,13 +96,14 @@ const PanelSidebar = () => {
       path: '/panel/users',
       hidden:
         !user?.role?.user?.includes('READ') &&
-        !user?.role?.userRole?.includes('READ'),
+        !user?.role?.userRole?.includes('READ') &&
+        !user?.isCompanyAdmin,
       subMenus: [
         {
           title: 'Kullanıcılar',
           icon: <FiUsers size={18} />,
           path: '/panel/users',
-          hidden: !user?.role?.user?.includes('READ'),
+          hidden: !user?.role?.user?.includes('READ') && !user?.isCompanyAdmin,
         },
         {
           title: 'Yetkilendirme',
@@ -113,11 +114,11 @@ const PanelSidebar = () => {
       ],
     },
     {
-      title: 'Şirketler',
+      title: user?.isCompanyAdmin && !user?.role?.isAdmin ? 'Şirket / Davetler' : 'Şirketler',
       icon: <BiBuilding size={18} />,
       type: 'link',
-      path: '/panel/companies',
-      hidden: !user?.role?.isAdmin,
+      path: user?.isCompanyAdmin && !user?.role?.isAdmin ? `/panel/companies/${user.companyId}` : '/panel/companies',
+      hidden: !user?.role?.isAdmin && !user?.isCompanyAdmin,
     },
     {
       title: 'Blog Yönetimi',

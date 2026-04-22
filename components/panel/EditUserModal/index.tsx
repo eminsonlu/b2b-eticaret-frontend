@@ -11,7 +11,7 @@ import Modal from '@/components/shared/Modal';
 import { fetchPanelUserRoles } from '@/services/userRoleService';
 import Select from '@/components/shared/Select';
 import IRole from '@/types/IRole';
-import companyService from '@/services/companyService';
+import * as companyService from '@/services/companyService';
 import { ICompany } from '@/types/ICompany';
 
 interface Props {
@@ -42,6 +42,7 @@ const EditUserModal = ({ id, show, onClose, onEdit }: Props) => {
       companyId: null as string | null,
       priceGroup: null as number | null,
       discountRate: null as number | null,
+      isCompanyAdmin: false,
     },
     validationSchema: Yup.object({}),
     onSubmit: async (values) => {
@@ -182,6 +183,17 @@ const EditUserModal = ({ id, show, onClose, onEdit }: Props) => {
               error={errors.discountRate && touched.discountRate && errors.discountRate}
               {...getFieldProps('discountRate')}
             />
+
+            <div className="flex items-center gap-2">
+              <input
+                id="isCompanyAdmin"
+                type="checkbox"
+                checked={values.isCompanyAdmin}
+                onChange={(e) => setFieldValue('isCompanyAdmin', e.target.checked)}
+                className="w-4 h-4 cursor-pointer"
+              />
+              <label htmlFor="isCompanyAdmin" className="cursor-pointer text-sm font-medium">Bu kullanıcıyı atandığı şirketin admini yap</label>
+            </div>
           </>
         )}
 

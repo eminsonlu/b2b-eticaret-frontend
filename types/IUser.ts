@@ -11,6 +11,7 @@ export default interface IUser {
   companyId: string | null;
   priceGroup: number | null;
   discountRate: number | null;
+  isCompanyAdmin: boolean;
   company: ICompany | null;
   createdAt: string;
 }

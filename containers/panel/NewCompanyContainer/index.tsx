@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import companyService from '@/services/companyService';
+import * as companyService from '@/services/companyService';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/shared/Button';

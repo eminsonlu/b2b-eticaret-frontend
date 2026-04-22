@@ -8,6 +8,9 @@ import Button from '@/components/shared/Button';
 import Input from '@/components/shared/Input';
 import Modal from '@/components/shared/Modal';
 import Select from '@/components/shared/Select';
+import * as companyService from '@/services/companyService';
+import { useAuthStore } from '@/stores/authStore';
+import { ICompany } from '@/types/ICompany';
 
 interface Props {
   show: boolean;
@@ -18,6 +21,8 @@ interface Props {
 const CreateSliderModal = ({ show, onClose, onCreate }: Props) => {
   const { addNotification } = useNotificationStore();
 
+  const { user: currentUser } = useAuthStore();
+  const [companies, setCompanies] = useState<ICompany[]>([]);
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -25,6 +30,8 @@ const CreateSliderModal = ({ show, onClose, onCreate }: Props) => {
       title: '',
       key: '',
       isActive: true,
+      isEveryone: true,
+      companyId: null as string | null,
     },
     validationSchema: Yup.object({
       title: Yup.string()
@@ -62,6 +69,15 @@ const CreateSliderModal = ({ show, onClose, onCreate }: Props) => {
     resetForm();
   }, [resetForm, show]);
 
+  useEffect(() => {
+    if (currentUser?.role?.isAdmin) {
+      (async () => {
+        const [err, data] = await companyService.getCompanies();
+        if (!err) setCompanies(data);
+      })();
+    }
+  }, [currentUser?.role?.isAdmin]);
+
   return (
     <Modal title="Slider Ekle" size="xSmall" show={show} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -86,7 +102,35 @@ const CreateSliderModal = ({ show, onClose, onCreate }: Props) => {
             { value: false, label: 'Hayır' },
           ]}
           onSelect={(val) => setFieldValue('isActive', val)}
-        ></Select>
+        />
+
+        <Select
+          label="Görünürlük (Kapsam)"
+          value={values.isEveryone}
+          options={[
+            { value: true, label: 'Herkese Açık (Tüm Kullanıcılar)' },
+            { value: false, label: 'Belirli Bir Şirkete Özel' },
+          ]}
+          onSelect={(val) => {
+            setFieldValue('isEveryone', val);
+            if (val) setFieldValue('companyId', null);
+          }}
+        />
+
+        {!values.isEveryone && currentUser?.role?.isAdmin && (
+          <Select
+            label="Hedef Şirket"
+            value={values.companyId}
+            options={[
+              { label: 'Seçiniz', value: null },
+              ...companies.map((company) => ({
+                label: `${company.name} (${company.taxNumber})`,
+                value: company.id,
+              })),
+            ]}
+            onSelect={(val) => setFieldValue('companyId', val)}
+          />
+        )}
 
         <Button type="submit" loading={loading}>
           Kaydet

@@ -1,16 +1,20 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import companyService from '@/services/companyService';
+import * as companyService from '@/services/companyService';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { ICompany } from '@/types/ICompany';
 import Link from 'next/link';
 import Button from '@/components/shared/Button';
+import Table from '@/components/shared/Table';
+import { FiEdit, FiTrash } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 const CompaniesContainer = () => {
   const { addNotification } = useNotificationStore();
   const [companies, setCompanies] = useState<ICompany[]>([]);
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     fetchCompanies();
@@ -52,10 +56,31 @@ const CompaniesContainer = () => {
     return new Date(dateStr).toLocaleDateString('tr-TR');
   };
 
+  const COLUMNS = [
+    { title: 'Şirket Adı', content: (row: ICompany) => row.name },
+    { title: 'Vergi No', content: (row: ICompany) => row.taxNumber },
+    { title: 'Fiyat Grubu', content: (row: ICompany) => row.priceGroup, className: 'w-[120px] max-w-[120px]' },
+    { title: 'İskonto %', content: (row: ICompany) => `${row.discountRate}%`, className: 'w-[120px] max-w-[120px]' },
+    { title: 'Kayıt Tarihi', content: (row: ICompany) => formatDate(row.createdAt), className: 'w-[150px] max-w-[150px]' },
+  ];
+
+  const actions = [
+    {
+      icon: <FiEdit size={16} />,
+      title: 'Düzenle',
+      action: (row: ICompany) => router.push(`/panel/companies/${row.id}`),
+    },
+    {
+      icon: <FiTrash size={16} />,
+      title: 'Sil',
+      action: (row: ICompany) => handleDelete(row.id),
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-full">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Şirketler</h1>
+        <h1 className="font-semibold text-5xl">Şirketler</h1>
         <Link href="/panel/companies/new">
           <Button color="primary">Yeni Şirket</Button>
         </Link>
@@ -66,61 +91,7 @@ const CompaniesContainer = () => {
       ) : companies.length === 0 ? (
         <div className="text-center text-gray-500">Şirket bulunamadı</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b-2 border-gray-200">
-                <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                  Şirket Adı
-                </th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                  Vergi No
-                </th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                  Fiyat Grubu
-                </th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                  İskonto %
-                </th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                  Kayıt Tarihi
-                </th>
-                <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                  İşlemler
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {companies.map((company) => (
-                <tr
-                  key={company.id}
-                  className="border-b border-gray-100 hover:bg-gray-50"
-                >
-                  <td className="px-4 py-3">{company.name}</td>
-                  <td className="px-4 py-3">{company.taxNumber}</td>
-                  <td className="px-4 py-3 text-center">{company.priceGroup}</td>
-                  <td className="px-4 py-3 text-center">{company.discountRate}%</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
-                    {formatDate(company.createdAt)}
-                  </td>
-                  <td className="px-4 py-3 flex gap-2">
-                    <Link href={`/panel/companies/${company.id}`}>
-                      <Button size="small">Düzenle</Button>
-                    </Link>
-                    <Button
-                      size="small"
-                      color="danger"
-                      loading={deleteLoading === company.id}
-                      onClick={() => handleDelete(company.id)}
-                    >
-                      Sil
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table columns={COLUMNS} actions={actions} data={companies} />
       )}
     </div>
   );

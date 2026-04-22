@@ -218,7 +218,7 @@ const MobileHeader = ({ categories = [] }: Props) => {
                   )}
                 </Link>
 
-                {user?.role?.isAdmin && (
+                {(user?.role?.isAdmin || user?.isCompanyAdmin) && (
                   <Link
                     href="/panel"
                     className="text-sm font-medium text-slate-600 flex items-center gap-2"
