@@ -25,6 +25,22 @@ const ProductItem = ({
   const categorySlug = categories?.[0]?.slug;
   const href = categorySlug ? `/${categorySlug}/${slug}${query}` : null;
 
+  const listPrice = Number(price);
+  const rawSale =
+    discountPrice != null && discountPrice !== ''
+      ? Number(discountPrice)
+      : NaN;
+  const hasDiscount =
+    Number.isFinite(listPrice) &&
+    listPrice > 0 &&
+    Number.isFinite(rawSale) &&
+    rawSale > 0 &&
+    rawSale < listPrice;
+  const displayMain = hasDiscount ? rawSale : listPrice;
+  const discountPercent = hasDiscount
+    ? (100 * (listPrice - rawSale)) / listPrice
+    : 0;
+
   const content = (
     <>
       <img
@@ -44,17 +60,19 @@ const ProductItem = ({
       <div className="flex items-center gap-2 mt-auto">
         <div className="flex flex-col">
           <strong className="text-base sm:text-xl">
-            {Number(discountPrice).toFixed(2)}TL
+            {Number.isFinite(displayMain) ? displayMain.toFixed(2) : '0.00'}TL
           </strong>
-          <span className="ml-1 line-through text-gray-400 text-xs sm:text-sm">
-            {Number(price).toFixed(2)}TL
-          </span>
+          {hasDiscount && (
+            <span className="ml-1 line-through text-gray-400 text-xs sm:text-sm">
+              {listPrice.toFixed(2)}TL
+            </span>
+          )}
         </div>
 
-        {100 * ((price - discountPrice) / price) >= 20 && (
+        {hasDiscount && discountPercent >= 20 && (
           <div className="absolute top-2 sm:top-5 right-2 sm:right-5 px-1.5 sm:px-2 py-1 sm:py-1.5 bg-green-400 flex items-center justify-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-bold text-white rounded">
             <IoIosTrendingDown size={16} className="sm:text-xl" />%
-            {(100 * ((price - discountPrice) / price)).toFixed(0)}
+            {discountPercent.toFixed(0)}
           </div>
         )}
       </div>

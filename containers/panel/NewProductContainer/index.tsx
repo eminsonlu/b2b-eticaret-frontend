@@ -729,6 +729,70 @@ const NewProductContainer = ({ categories, tags, variants = [] }: Props) => {
                     ),
                   },
                   {
+                    title: 'Fiyat Grubu 2',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price2}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price2',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 3',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price3}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price3',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 4',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price4}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price4',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 5',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price5}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price5',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
                     title: 'Yükleme zorunlu mu?',
                     content: (row: any, index: number) => (
                       <Select

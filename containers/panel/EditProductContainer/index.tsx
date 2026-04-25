@@ -68,12 +68,12 @@ const NewProductContainer = ({
       title: item.title,
       sku: item.sku,
       stock: item.stock,
-      price: item.price,
-      price1: item.price1,
-      price2: item.price2,
-      price3: item.price3,
-      price4: item.price4,
-      price5: item.price5,
+      price: item.price ?? product?.price,
+      price1: item.price1 ?? product?.price1,
+      price2: item.price2 ?? product?.price2,
+      price3: item.price3 ?? product?.price3,
+      price4: item.price4 ?? product?.price4,
+      price5: item.price5 ?? product?.price5,
       thumbnail: item.thumbnail,
       file: null,
       isRequireAttachment: item.isRequireAttachment,
@@ -814,6 +814,70 @@ const NewProductContainer = ({
                           handleChangeVariantProduct(
                             index,
                             'price1',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 2',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price2}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price2',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 3',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price3}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price3',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 4',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price4}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price4',
+                            e.target.value
+                          )
+                        }
+                      />
+                    ),
+                  },
+                  {
+                    title: 'Fiyat Grubu 5',
+                    content: (row: any, index: number) => (
+                      <Input
+                        size="small"
+                        value={row.price5}
+                        onChange={(e) =>
+                          handleChangeVariantProduct(
+                            index,
+                            'price5',
                             e.target.value
                           )
                         }

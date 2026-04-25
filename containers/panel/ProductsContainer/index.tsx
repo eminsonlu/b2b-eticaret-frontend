@@ -66,7 +66,7 @@ const ProductsContainer = ({ products = [] }: { products: IProduct[] }) => {
             {Intl.NumberFormat("tr-TR", {
               style: "currency",
               currency: "TRY",
-            }).format(row.price1)}
+            }).format(row.price)}
           </summary>
           <div className="mt-1 space-y-1 text-sm bg-gray-50 p-2 rounded">
             <div>
