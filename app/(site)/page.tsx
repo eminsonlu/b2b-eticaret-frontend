@@ -23,7 +23,7 @@ export const generateMetadata = async () => {
 
 const HomePage = async () => {
   const [dataErr, data] = await fetchHomePageData();
-
+  console.log('data', data);
   if (dataErr) {
     return <div>error</div>;
   }

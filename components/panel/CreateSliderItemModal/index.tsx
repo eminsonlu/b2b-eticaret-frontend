@@ -106,7 +106,10 @@ const CreateSliderItemModal = ({
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="min-w-[125px] min-h-[125px] group p-1 border border-slate-200 hover:border-slate-300 rounded-md border-dashed flex items-center justify-center relative">
           {!file ? (
-            <IoImageOutline size={36} className="text-slate-300" />
+            <span className='flex flex-col items-center'>
+                <span className='text-slate-300'>Format: 2400x1000</span>
+                <IoImageOutline size={36} className="text-slate-300" />
+            </span>
           ) : (
             <>
               <Image

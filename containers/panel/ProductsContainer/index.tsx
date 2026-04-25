@@ -60,28 +60,53 @@ const ProductsContainer = ({ products = [] }: { products: IProduct[] }) => {
     },
     {
       title: "Fiyat",
-      content: (row: IProduct) =>
-        row.discountPrice !== 0 &&
-        row.discountPrice !== null &&
-        row.discountPrice !== row.price ? (
-          <span>
+      content: (row: IProduct) => (
+        <details className="cursor-pointer">
+          <summary className="hover:text-blue-600">
             {Intl.NumberFormat("tr-TR", {
               style: "currency",
               currency: "TRY",
-            }).format(row.discountPrice)}{" "}
-            <span className="line-through text-gray-500">
+            }).format(row.price1)}
+          </summary>
+          <div className="mt-1 space-y-1 text-sm bg-gray-50 p-2 rounded">
+            <div>
+              <span className="font-semibold">Fiyat 1:</span>{" "}
               {Intl.NumberFormat("tr-TR", {
                 style: "currency",
                 currency: "TRY",
-              }).format(row.price)}
-            </span>
-          </span>
-        ) : (
-          Intl.NumberFormat("tr-TR", {
-            style: "currency",
-            currency: "TRY",
-          }).format(row.price)
-        ),
+              }).format(row.price1)}
+            </div>
+            <div>
+              <span className="font-semibold">Fiyat 2:</span>{" "}
+              {Intl.NumberFormat("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+              }).format(row.price2)}
+            </div>
+            <div>
+              <span className="font-semibold">Fiyat 3:</span>{" "}
+              {Intl.NumberFormat("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+              }).format(row.price3)}
+            </div>
+            <div>
+              <span className="font-semibold">Fiyat 4:</span>{" "}
+              {Intl.NumberFormat("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+              }).format(row.price4)}
+            </div>
+            <div>
+              <span className="font-semibold">Fiyat 5:</span>{" "}
+              {Intl.NumberFormat("tr-TR", {
+                style: "currency",
+                currency: "TRY",
+              }).format(row.price5)}
+            </div>
+          </div>
+        </details>
+      ),
       className: "w-[150px] max-w-[150px]",
     },
     {
